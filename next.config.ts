@@ -5,12 +5,12 @@ const nextConfig: NextConfig = {
     remotePatterns: [
       {
         protocol: 'http',
-        hostname: 'threls-full-stack-application.test',
+        hostname: 'your-laravel-domain.test',
         pathname: '/storage/**',
       },
       {
         protocol: 'http',
-        hostname: 'threls-full-stack-application.test',
+        hostname: 'your-laravel-domain.test',
         pathname: '/page-images/**',   
       },
     ],
@@ -18,7 +18,7 @@ const nextConfig: NextConfig = {
   },
 
    allowedDevOrigins: [
-    'http://threls-full-stack-application.test',
+    'http://your-laravel-domain.test',
     'http://localhost:8000',
   ],
 };
