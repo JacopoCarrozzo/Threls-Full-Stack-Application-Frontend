@@ -10,6 +10,11 @@ interface ContentRendererProps {
     blocks: ContentBlock[]; 
 }
 
+interface HeadingBlockData {
+    content: string;
+    level: 'h1' | 'h2' | 'h3' | 'h4' | 'h5' | 'h6'; // Ipotizzo che il livello sia passato
+}
+
 const RichTextRenderer: React.FC<{ html: string }> = ({ html }) => {
     
     return (
@@ -18,6 +23,30 @@ const RichTextRenderer: React.FC<{ html: string }> = ({ html }) => {
             dangerouslySetInnerHTML={{ __html: html }} 
         />
     );
+};
+
+const HeadingRenderer: React.FC<HeadingBlockData> = ({ content, level = 'h2' }) => {
+  const classMap: Record<'h1' | 'h2' | 'h3' | 'h4' | 'h5' | 'h6', string> = {
+    h1: 'text-5xl font-extrabold mt-10 mb-6 leading-tight',
+    h2: 'text-4xl font-bold mt-8 mb-5',
+    h3: 'text-3xl font-semibold mt-7 mb-4',
+    h4: 'text-2xl font-medium mt-6 mb-3',
+    h5: 'text-xl font-medium mt-5 mb-3',
+    h6: 'text-lg font-medium mt-4 mb-2 text-gray-700',
+  };
+
+  const className = classMap[level] || classMap.h2;
+
+  const headings = {
+    h1: <h1 className={className}>{content}</h1>,
+    h2: <h2 className={className}>{content}</h2>,
+    h3: <h3 className={className}>{content}</h3>,
+    h4: <h4 className={className}>{content}</h4>,
+    h5: <h5 className={className}>{content}</h5>,
+    h6: <h6 className={className}>{content}</h6>,
+  };
+
+  return headings[level] || headings.h2;
 };
 
 const LARAVEL_BASE_URL = 'http://threls-full-stack-application.test';
@@ -35,35 +64,47 @@ const ContentRenderer: React.FC<ContentRendererProps> = ({ blocks }) => {
                         return (
                             <RichTextRenderer key={index} html={block.data.body} />
                         );
-                    
+
+                    case 'heading':
+  
+                        const headingData = block.data as { text?: string; level?: 'h1' | 'h2' | 'h3' | 'h4' | 'h5' | 'h6' };
+                        if (!headingData.text) return null;
+
+                        return (
+                        <HeadingRenderer
+                        key={index}
+                        content={headingData.text}          
+                        level={headingData.level || 'h2'}  
+                        />
+                        );
                         
                     case 'image': 
-    const { url: relativePath, alt} = block.data;
+                        const { url: relativePath, alt} = block.data;
 
-    if (!relativePath) return null;
+                        if (!relativePath) return null;
 
-    let imageUrl: string;
+                        let imageUrl: string;
 
-    if (relativePath.startsWith('http://') || relativePath.startsWith('https://')) {
-        imageUrl = relativePath;
-    } else {
-        imageUrl = `${LARAVEL_BASE_URL}${relativePath.startsWith('/') ? '' : '/'}${relativePath}`;
-    }
+                        if (relativePath.startsWith('http://') || relativePath.startsWith('https://')) {
+                        imageUrl = relativePath;
+                        } else {
+                        imageUrl = `${LARAVEL_BASE_URL}${relativePath.startsWith('/') ? '' : '/'}${relativePath}`;
+                        }
 
-    return (
-        <div key={index} className="my-8">
-            <figure className="relative w-full h-96"> 
-                <Image
-                    src={imageUrl} 
-                    alt={alt || 'Immagine CMS'} 
-                    fill 
-                    sizes="(max-width: 1200px) 100vw, 800px" 
-                    style={{ objectFit: 'contain' }} 
-                    className="rounded-lg shadow-lg"
-                />
-            </figure>
-        </div>
-    );
+                        return (
+                        <div key={index} className="my-8">
+                        <figure className="relative w-full h-96"> 
+                        <Image
+                            src={imageUrl} 
+                            alt={alt || 'Immagine CMS'} 
+                            fill 
+                            sizes="(max-width: 1200px) 100vw, 800px" 
+                            style={{ objectFit: 'contain' }} 
+                            className="rounded-lg shadow-lg"
+                        />
+                        </figure>
+                        </div>
+                        );
 
                     
                     default:
