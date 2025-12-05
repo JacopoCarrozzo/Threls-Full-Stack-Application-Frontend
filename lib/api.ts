@@ -14,7 +14,7 @@ export async function getMenus() {
     });
 
     if (!response.ok) {
-        throw new Error(`Errore nel fetching dei menu: ${response.statusText}`);
+        throw new Error(`Error fetching menus: ${response.statusText}`);
     }
 
     const data = await response.json();
@@ -25,7 +25,7 @@ export async function getMenus() {
 export async function getPageBySlug(slug: string) {
     
     if (!slug) {
-        throw new Error("Slug non fornito a getPageBySlug");
+        throw new Error("Slug not supplied to getPageBySlug");
     }
 
     const url = `${API_BASE_URL}/api/pages/${slug}`;
