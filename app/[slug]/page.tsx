@@ -7,6 +7,8 @@ interface PageContent {
   content: any[];
 }
 
+export const revalidate = 0;
+
 export default async function DynamicPage({
   params,
 }: {
@@ -29,11 +31,12 @@ export default async function DynamicPage({
   }
 
   return (
-    <article className="prose max-w-none">
-      <h1 className="text-4xl font-bold mb-8">{pageData.title}</h1>
-      <section>
-        <ContentRenderer blocks={pageData.content} />
-      </section>
-    </article>
-  );
+  <article>
+
+  <section>
+    <ContentRenderer blocks={pageData.content} />
+  </section>
+
+</article>
+);
 }
