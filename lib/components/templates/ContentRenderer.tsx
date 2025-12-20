@@ -17,9 +17,20 @@ interface ContentRendererProps {
 }
 
 const ContentRenderer = async ({ blocks }: ContentRendererProps) => {
-  
-  if (!blocks?.length) {
-    return null;
+  if (!blocks || blocks.length === 0) {
+    return (
+      <div className="flex flex-col items-center justify-center py-32 px-6 text-center animate-fade-in">
+        <div className="w-24 h-24 bg-gray-50 rounded-full flex items-center justify-center mb-8 shadow-inner">
+          <span className="text-5xl text-gray-300">🚀</span>
+        </div>
+        <h2 className="text-3xl font-bold text-gray-900 mb-4">Coming Soon</h2>
+        <p className="text-gray-500 max-w-md leading-relaxed">
+          We are preparing new content for this section. <br /> 
+          Come back and visit us soon!
+        </p>
+        <div className="mt-8 h-1 w-20 threls-primary rounded-full opacity-30" />
+      </div>
+    );
   }
 
   const teamMembers = await getTeamMembers();
@@ -28,7 +39,6 @@ const ContentRenderer = async ({ blocks }: ContentRendererProps) => {
   return (
     <div className="space-y-16 py-12">
       {blocks.map((block, index) => {
-        
         switch (block.type) {
           case "heading":
             return (
@@ -40,13 +50,14 @@ const ContentRenderer = async ({ blocks }: ContentRendererProps) => {
             );
 
           case "text":
-            return <RichText key={index} html={block.data?.body} />;
+            return (
+              <div key={index} className="max-w-4xl mx-auto px-6">
+                <RichText html={block.data?.body} />
+              </div>
+            );
 
           case "image": {
-            if (!block.data?.url) {
-              return null;
-            }
-
+            if (!block.data?.url) return null;
             const src = block.data.url.startsWith("http")
               ? block.data.url
               : `${BASE_URL}/storage/${block.data.url}`;
@@ -92,6 +103,7 @@ const ContentRenderer = async ({ blocks }: ContentRendererProps) => {
             );
 
           default:
+            console.warn(`Unknown block type: ${block.type}`);
             return null;
         }
       })}
