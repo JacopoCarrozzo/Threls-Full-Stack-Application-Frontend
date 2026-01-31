@@ -1,7 +1,7 @@
-# 🚀 Threls Full-Stack Application -- Frontend (Next.js)
+# 🚀 Full-Stack Application -- Frontend (Next.js)
 
 This repository contains the **Next.js** application, which serves as
-the presentation layer (frontend) for the **Threls Headless CMS**,
+the presentation layer (frontend) for the ** Headless CMS**,
 powered by **Laravel + Filament**.
 
 The frontend retrieves all dynamic content, menus, and media (images)
@@ -18,7 +18,7 @@ correctly configured:
 2.  **npm** or **Yarn**\
 3.  The **Laravel Backend** running locally and reachable via a local
     development domain
-    -   **Example domain:** `http://threls-full-stack-application.test`
+    -   **Example domain:** `http://full-stack-application.test`
 
 ------------------------------------------------------------------------
 
@@ -27,8 +27,8 @@ correctly configured:
 ### 1. Clone the Repository
 
 ``` bash
-git clone https://github.com/JacopoCarrozzo/Threls-Full-Stack-Application-Frontend.git
-cd Threls-Full-Stack-Application-Frontend
+git clone https://github.com/JacopoCarrozzo/https://github.com/JacopoCarrozzo/Full-Stack-Application-Front-End
+cd Full-Stack-Application-Front-End
 ```
 
 ### 2. Install Dependencies
